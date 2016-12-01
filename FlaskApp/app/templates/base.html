@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recommender</title>
+</head>
+
+<body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css')}}">
+<script type="text/javascript" src="{{ url_for('static', filename='js/home.js') }}"></script>
+<link rel="stylesheet" href="http://s.mlcdn.co/animate.css">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+
+<div class="container">
+  {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>

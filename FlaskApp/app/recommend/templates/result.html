@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+{% from "_formhelpers.html" import render_field %}
+<!-- background animation BEGIN-->
+<canvas></canvas>
+<!-- background animation END -->
+
+<div id='div_content'>
+<h1 align="center">
+  <a href="{{ url_for('home') }}" style="color: #ffffff; text-decoration: none">Movie Recommendation System</a>
+</h1>
+  <!-- <p>Hello this is home</p> -->
+
+  <br>
+
+    <h3>Recommended Movies</h3>
+    
+    <div class='row' id="result">
+    <p>{{ par[0] }}</p>
+    <p>{{ par[1] }}</p>
+    <p>{{ par[2] }}</p>
+    <p>{{ par[3] }}</p>
+    <p>{{ par[4] }}</p>
+    </div>
+
+</div>
+
+
+<style type="text/css">
+input, select, textarea{
+    color: #000000;
+}
+
+textarea:focus, input:focus {
+    color: #ff0000;
+}
+</style>
+
+
+{% endblock %}
+

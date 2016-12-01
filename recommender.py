@@ -17,7 +17,8 @@ APP_NAME = "Recommender"
 
 netflix_list = {}
 movie = {}
-userid = 2020475
+userid = int(sys.argv[1])
+year = int(sys.argv[2])
 
 def calculate_similarity(movie1,movie2):
     eucledian_distance=[]
@@ -96,11 +97,10 @@ def fetch_movie_titles(filename):
 
 def filterYear(data):
   arr = data[3].strip().split('-')
-  if int(arr[0]) == 2001:
+  if int(arr[0]) == year:
     return data
 
 def filterUserMovies(data):
-  #print data[1]
   if int(data[1]) == userid:
     return data
 
@@ -126,7 +126,6 @@ def main(sc,filename,movie_title_file):
    #userMovieData=allMovieData.filter(lambda x: userid in x)
    userMovieData=allMovieData.map(filterUserMovies).filter(lambda x: x!=None)
    
-   print(userMovieData.count())
    all_movies_list = allMovieData.collect()
 
    for data in all_movies_list:
@@ -144,7 +143,7 @@ if __name__ == "__main__":
    conf = SparkConf().setAppName(APP_NAME)
    conf = conf.setMaster("spark://152.46.19.250:7077").set("spark.executor.cores","8").set("spark.submit.deployMode","cluster").set("spark.executor.memory","2g").set("spark.driver.memory","2g")
    sc   = SparkContext(conf=conf)
-   filename = "/home/rnmandge/movie_data.csv"
+   filename = "/home/rnmandge/movie_data1.csv"
    movie_title_file = '/home/rnmandge/movie_titles.txt'
 
    # Execute Main functionality

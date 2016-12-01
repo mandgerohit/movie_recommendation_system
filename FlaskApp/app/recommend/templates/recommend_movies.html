@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+{% from "_formhelpers.html" import render_field %}
+<canvas></canvas>
+
+<div id='div_content'>
+
+<h1 align="center">
+  <a href="{{ url_for('home') }}" style="color: #ffffff; text-decoration: none">Movie Recommender System</a>
+</h1>
+  <!-- <p>Hello this is home</p> -->
+
+  <br>
+
+  <div class="row" id="intro_left">
+    <div class="col-md-12">
+        <h3>Goal</h3>
+        <p>
+            Recommend Movies to the User
+        </p>
+    </div>
+
+  </div>
+   <div id="content" class = "container">
+        <form method="POST" action="submit">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="important" style="color: #000000;">
+                       {{ render_field(form.userid) }}
+                    </p>
+                </div>  
+                <div class="col-md-6">
+                    <p class="important" style="color: #000000;">
+                       {{ render_field(form.year) }}
+                    </p>
+                </div>
+            </div> 
+            
+            <div class="col-md-12">
+                <input type="submit" class="btn btn-primary" id= "submitButton" value="Submit">
+            </div> 
+        </form>
+    </div>
+</div>
+
+  <br>
+
+</div>
+
+<style type="text/css">
+input, select, textarea{
+    color: #000000;
+}
+
+textarea:focus, input:focus {
+    color: #ff0000;
+}
+a:link {
+    color: white;
+}
+</style>
+
+<script>
+$('#intro_left').addClass('animated bounceInLeft');
+</script>
+
+{% endblock %}

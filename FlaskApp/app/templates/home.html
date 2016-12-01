@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<canvas></canvas>
+
+<div id='div_content'>
+
+<h1 align="center">
+  <a href="{{ url_for('home') }}" style="color: #ffffff; text-decoration: none">Movie Recommender System</a>
+</h1>
+  <!-- <p>Hello this is home</p> -->
+
+  <br>
+  <div class="row" id="intro_left">
+    <div class="col-md-12">
+        <h3>Goal</h3>
+        <p>
+            Recommend Movies to the User
+        </p>
+        <div class="col-md-12">
+        <a class="btn btn-primary" href="{{ url_for('recommend.home') }}" role="button">Get Started</a>
+        </div>
+    </div>
+  </div>
+</div>
+
+  <br>
+
+</div>
+
+
+<script>
+$('#intro_left').addClass('animated bounceInLeft');
+</script>
+
+{% endblock %}
