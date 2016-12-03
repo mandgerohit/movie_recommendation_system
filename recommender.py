@@ -19,6 +19,7 @@ netflix_list = {}
 movie = {}
 userid = int(sys.argv[1])
 year = int(sys.argv[2])
+filename = sys.argv[3]
 
 def calculate_similarity(movie1,movie2):
     eucledian_distance=[]
@@ -89,8 +90,8 @@ def top_similar_movies(movie,n,function=calculate_pearson_coefficient):
     
     return similarity_scores[:n]
 
-def fetch_movie_titles(filename):
-  with open(filename, 'r') as file:
+def fetch_movie_titles(movie_filename):
+  with open(movie_filename, 'r') as file:
     for line in file:
       data = line.strip().split(',')
       movie[int(data[0])] = data[2]
@@ -118,12 +119,11 @@ def recommend_movies(usermoviesRDD, n):
   for i in range(n):
     print movie[sim_movies[i][1]]
 
-def main(sc,filename,movie_title_file):
+def main(sc,movie_title_file):
    allMovieData=sc.textFile(filename).map(lambda x: x.split(","))
-
    allMovieData=allMovieData.map(lambda x: (int(x[0]),int(x[1]),int(x[2]),str(x[3])))
    allMovieData=allMovieData.map(filterYear).filter(lambda x: x!=None)
-   #userMovieData=allMovieData.filter(lambda x: userid in x)
+
    userMovieData=allMovieData.map(filterUserMovies).filter(lambda x: x!=None)
    
    all_movies_list = allMovieData.collect()
@@ -143,8 +143,7 @@ if __name__ == "__main__":
    conf = SparkConf().setAppName(APP_NAME)
    conf = conf.setMaster("spark://152.46.19.250:7077").set("spark.executor.cores","8").set("spark.submit.deployMode","cluster").set("spark.executor.memory","2g").set("spark.driver.memory","2g")
    sc   = SparkContext(conf=conf)
-   filename = "/home/rnmandge/movie_data1.csv"
    movie_title_file = '/home/rnmandge/movie_titles.txt'
 
    # Execute Main functionality
-   main(sc, filename, movie_title_file)
+   main(sc, movie_title_file)
