@@ -16,7 +16,7 @@ def preprocess(filename, sc):
     f=open(filename)
     
     movie = f.readline().strip().replace(":","")
-    fd = open('movie_data2.csv','a')
+    fd = open('movie_data.csv','a')
     for line in f:
         data = line.strip().split(',')
         user=data[0].strip()
@@ -30,7 +30,7 @@ def preprocess(filename, sc):
     fd.close()
 
 def main(sc):
-    mypath = "/home/rnmandge/training_set1/"
+    mypath = "/home/rnmandge/training_set/"
     allfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
     for file in allfiles:
         filename = mypath + file

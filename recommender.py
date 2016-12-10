@@ -105,29 +105,24 @@ def filterUserMovies(data):
   if int(data[1]) == userid:
     return data
 
-def recommend_movies(usermoviesRDD, n):
-  usermovies=usermoviesRDD.collect()
+def recommend_movies(data):
   sim_movies = []
-  usermovies_size= len(usermovies)
-  for i in range(usermovies_size):
-    rec = top_similar_movies(int(usermovies[i][0]), 5)
-    for entry in rec:
-      sim_movies.append((entry[0]*usermovies[i][2], entry[1]))
+  rec = top_similar_movies(int(data[0]), 5)
+  for entry in rec:
+    sim_movies.append((entry[0]*data[2], entry[1]))
 
-  sim_movies.sort()
-  sim_movies.reverse()
-  for i in range(n):
-    print movie[sim_movies[i][1]]
+  return sim_movies
 
 def main(sc,movie_title_file):
    allMovieData=sc.textFile(filename).map(lambda x: x.split(","))
+
    allMovieData=allMovieData.map(lambda x: (int(x[0]),int(x[1]),int(x[2]),str(x[3])))
    allMovieData=allMovieData.map(filterYear).filter(lambda x: x!=None)
 
    userMovieData=allMovieData.map(filterUserMovies).filter(lambda x: x!=None)
    
    all_movies_list = allMovieData.collect()
-
+   
    for data in all_movies_list:
       if data[0] in netflix_list:
           netflix_list[data[0]].update({data[1]:data[2]})
@@ -135,7 +130,22 @@ def main(sc,movie_title_file):
           netflix_list[data[0]] = {data[1]:data[2]}
    
    fetch_movie_titles(movie_title_file)
-   recommend_movies(userMovieData, 5)
+
+   new_userMovieData = userMovieData.map(recommend_movies).filter(lambda x: x!= None)
+
+   new_userMovieData_list = new_userMovieData.collect()
+
+   final_movies = []
+
+   for mv in new_userMovieData_list:
+    for mv1 in mv:
+      final_movies.append(mv1)
+
+   final_movies.sort()
+   final_movies.reverse()
+
+   for i in range(5):
+     print movie[final_movies[i][1]]
 
 if __name__ == "__main__":
 
